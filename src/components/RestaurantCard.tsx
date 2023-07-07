@@ -1,28 +1,34 @@
 import React from 'react'
 import Link from 'next/link';
+import { RestaurantCardType } from '@/app/page';
+import Price from './Price';
+import Stars from './Stars';
 
-export default function RestaurantCard() {
+interface RestaurantCardProps {
+  restaurant: RestaurantCardType;
+}
+
+export default function RestaurantCard({ restaurant }: RestaurantCardProps) {
   return (
-
     <div
       className="w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer text-gray-700"
     >
-      <Link href={`/restaurant/${'rest'}`}>
+      <Link href={`/restaurant/${restaurant.slug}`}>
         <img
-          src="https://resizer.otstatic.com/v2/photos/wide-huge/2/31852905.jpg"
+          src={restaurant.main_image}
           alt=""
           className="w-full h-36"
         />
         <div className="p-1">
-          <h3 className="font-bold text-2xl mb-2">Milestones Grill</h3>
+          <h3 className="font-bold text-2xl mb-2">{restaurant.name}</h3>
           <div className="flex items-start">
-            <div className="flex mb-2">*****</div>
-            <p className="ml-2">77 reviews</p>
+            <Stars reviews={restaurant.reviews}/>
+            <p className="ml-2">{restaurant.reviews.length} review(s)</p>
           </div>
           <div className="flex text-reg font-light capitalize">
-            <p className=" mr-3">Mexican</p>
-            <p className="mr-3">$$$$</p>
-            <p>Toronto</p>
+            <p className=" mr-3">{restaurant.cuisine.name}</p>
+            <p className="mr-3"><Price price={restaurant.price} /></p>
+            <p>{restaurant.location.name}</p>
           </div>
           <p className="text-sm mt-1 font-bold">Booked 3 times today</p>
         </div>

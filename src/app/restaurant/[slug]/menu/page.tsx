@@ -1,6 +1,6 @@
-import RestaurantHeader from "@/components/RestaurantHeader";
 import RestaurantMenu from "@/components/RestaurantMenu";
 import RestaurantNavBar from "@/components/RestaurantNavBar";
+import { PrismaClient } from "@prisma/client";
 import React from "react";
 
 export const metadata = {
@@ -8,12 +8,27 @@ export const metadata = {
   description: 'Created by Willian Rios',
 }
 
-export default function Menu() {
+const prisma = new PrismaClient();
+async function fetchMenu(slug: string){
+  const restaurant = await prisma.restaurant.findUnique({
+    where:{
+      slug
+    },
+    select:{
+      items: true
+    }
+  })
+  if (!restaurant) throw new Error()
+  return restaurant.items
+}
+
+export default async function Menu({params}: {params: {slug: string}}) {
+  const menu = await fetchMenu(params.slug);
   return (
     <>
       <div className="bg-white w-[100%] rounded p-3 shadow">
-        <RestaurantNavBar />
-        <RestaurantMenu />
+        <RestaurantNavBar slug={params.slug} />
+        <RestaurantMenu menu={menu}/>
       </div>
     </>
   );

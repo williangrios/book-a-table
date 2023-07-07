@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useState } from "react";
-import RestaurantTitle from "./RestaurantTitle";
 
 export default function SearchBar() {
   const [location, setLocation] = useState("");
@@ -10,7 +9,7 @@ export default function SearchBar() {
 
   function handleFind() {
     if (location.trim() === '') return
-    router.push(`../search`)
+    router.push(`../search?city=${location}`)
   }
 
   return (
