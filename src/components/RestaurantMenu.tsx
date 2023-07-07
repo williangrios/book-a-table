@@ -19,8 +19,8 @@ export default function RestaurantMenu({ menu }: { menu: Item[] }) {
                   ))
                 }
               </>
-              :(<>
-              <p>This restaurant does not have a menu</p>
+              : (<>
+                <p>This restaurant does not have a menu</p>
               </>)
           }
         </div>
